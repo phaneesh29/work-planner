@@ -17,12 +17,12 @@ export async function GET(request) {
 
     await dbConnect();
 
-    // Find tasks that are due within the next 1 hour and haven't been notified yet
+    // Find tasks that are due within the next 24 hours and haven't been notified yet
     const now = new Date();
-    const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000); // 1 hour from now
+    const twentyFourHoursFromNow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
     const upcomingTasks = await Task.find({
-      dueDate: { $gte: now, $lte: oneHourFromNow },
+      dueDate: { $gte: now, $lte: twentyFourHoursFromNow },
       status: 'pending',
       notificationSent: false,
     }).populate('userId');

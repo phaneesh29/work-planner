@@ -14,8 +14,8 @@ export function startEmailCronJob() {
     return;
   }
 
-  // Run every hour
-  cron.schedule('0 * * * *', async () => {
+  // Run daily at 9 AM
+  cron.schedule('0 9 * * *', async () => {
     console.log('Running due date reminder cron job...');
     
     try {
@@ -34,5 +34,5 @@ export function startEmailCronJob() {
   });
 
   cronJobStarted = true;
-  console.log('Email reminder cron job started - runs every hour');
+  console.log('Email reminder cron job started - runs daily at 9 AM');
 }
