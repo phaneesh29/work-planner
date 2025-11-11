@@ -164,8 +164,17 @@ export default function DashboardPage() {
     });
   };
 
-  const isOverdue = (dueDate, status) => {
-    return status === "pending" && new Date(dueDate) < new Date();
+  const isOverdue = (dueDate, dueTime, status) => {
+    if (status !== "pending") return false;
+    
+    const now = new Date();
+    const taskDate = new Date(dueDate);
+    
+    // Parse the time (format: HH:MM)
+    const [hours, minutes] = (dueTime || "09:00").split(':').map(Number);
+    taskDate.setHours(hours, minutes, 0, 0);
+    
+    return taskDate < now;
   };
 
   if (loading) {
@@ -223,7 +232,7 @@ export default function DashboardPage() {
               <div
                 key={task._id}
                 className={`bg-gray-900 rounded-lg p-6 border ${
-                  isOverdue(task.dueDate, task.status)
+                  isOverdue(task.dueDate, task.dueTime, task.status)
                     ? "border-red-500"
                     : "border-gray-800"
                 }`}
@@ -252,13 +261,13 @@ export default function DashboardPage() {
                       <div className="mt-3 flex items-center space-x-4">
                         <span
                           className={`text-sm ${
-                            isOverdue(task.dueDate, task.status)
+                            isOverdue(task.dueDate, task.dueTime, task.status)
                               ? "text-red-400 font-semibold"
                               : "text-gray-500"
                           }`}
                         >
                           Due: {formatDate(task.dueDate)} at {task.dueTime || "09:00"}
-                          {isOverdue(task.dueDate, task.status) && " (Overdue)"}
+                          {isOverdue(task.dueDate, task.dueTime, task.status) && " (Overdue)"}
                         </span>
                         <span
                           className={`px-2 py-1 text-xs rounded-full ${
