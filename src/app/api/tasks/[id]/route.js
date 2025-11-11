@@ -40,6 +40,7 @@ export async function PUT(request, { params }) {
     if (updates.title !== undefined) task.title = updates.title;
     if (updates.description !== undefined) task.description = updates.description;
     if (updates.dueDate !== undefined) task.dueDate = new Date(updates.dueDate);
+    if (updates.dueTime !== undefined) task.dueTime = updates.dueTime;
     if (updates.status !== undefined) task.status = updates.status;
 
     await task.save();

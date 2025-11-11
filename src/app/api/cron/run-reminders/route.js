@@ -35,7 +35,8 @@ export async function GET(request) {
         const result = await sendDueDateReminderEmail(
           task.userId.email,
           task.title,
-          task.dueDate
+          task.dueDate,
+          task.dueTime || '09:00'
         );
         
         if (result.success) {

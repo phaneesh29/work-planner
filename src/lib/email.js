@@ -52,7 +52,7 @@ export async function sendVerificationEmail(email, token) {
   }
 }
 
-export async function sendDueDateReminderEmail(email, taskTitle, dueDate) {
+export async function sendDueDateReminderEmail(email, taskTitle, dueDate, dueTime = '09:00') {
   const formattedDate = new Date(dueDate).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -70,9 +70,9 @@ export async function sendDueDateReminderEmail(email, taskTitle, dueDate) {
         <p style="color: #dc2626; font-weight: bold;">Your task is due within the next hour!</p>
         <div style="background-color: #fef2f2; padding: 15px; border-left: 4px solid #ef4444; border-radius: 5px; margin: 20px 0;">
           <h3 style="margin: 0 0 10px 0; color: #991b1b;">${taskTitle}</h3>
-          <p style="margin: 0; color: #7f1d1d;">Due: ${formattedDate}</p>
+          <p style="margin: 0; color: #7f1d1d;">Due: ${formattedDate} at ${dueTime}</p>
         </div>
-        <p>Don't forget to complete this task before it's overdue!</p>
+        <p>Don&apos;t forget to complete this task before it&apos;s overdue!</p>
         <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" 
            style="display: inline-block; padding: 12px 24px; background-color: #ef4444; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0;">
           Complete Task Now

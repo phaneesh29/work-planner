@@ -18,6 +18,10 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'Please provide a due date'],
   },
+  dueTime: {
+    type: String,
+    default: '09:00',
+  },
   status: {
     type: String,
     enum: ['pending', 'completed'],

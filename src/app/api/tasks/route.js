@@ -56,7 +56,7 @@ export async function POST(request) {
       );
     }
 
-    const { title, description, dueDate } = await request.json();
+    const { title, description, dueDate, dueTime } = await request.json();
 
     if (!title || !dueDate) {
       return NextResponse.json(
@@ -97,6 +97,7 @@ export async function POST(request) {
       title: sanitizedTitle,
       description: sanitizedDescription,
       dueDate: new Date(dueDate),
+      dueTime: dueTime || '09:00',
     });
 
     return NextResponse.json({ task }, { status: 201 });

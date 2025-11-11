@@ -13,6 +13,7 @@ export default function DashboardPage() {
     title: "",
     description: "",
     dueDate: "",
+    dueTime: "09:00",
   });
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function DashboardPage() {
       await fetchTasks(token);
       
       // Reset form and close modal
-      setFormData({ title: "", description: "", dueDate: "" });
+      setFormData({ title: "", description: "", dueDate: "", dueTime: "09:00" });
       setEditingTask(null);
       setShowModal(false);
     } catch (error) {
@@ -91,6 +92,7 @@ export default function DashboardPage() {
       title: task.title,
       description: task.description || "",
       dueDate: new Date(task.dueDate).toISOString().split("T")[0],
+      dueTime: task.dueTime || "09:00",
     });
     setShowModal(true);
   };
@@ -201,7 +203,7 @@ export default function DashboardPage() {
           <button
             onClick={() => {
               setEditingTask(null);
-              setFormData({ title: "", description: "", dueDate: "" });
+              setFormData({ title: "", description: "", dueDate: "", dueTime: "09:00" });
               setShowModal(true);
             }}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
@@ -255,7 +257,7 @@ export default function DashboardPage() {
                               : "text-gray-500"
                           }`}
                         >
-                          Due: {formatDate(task.dueDate)}
+                          Due: {formatDate(task.dueDate)} at {task.dueTime || "09:00"}
                           {isOverdue(task.dueDate, task.status) && " (Overdue)"}
                         </span>
                         <span
@@ -345,6 +347,21 @@ export default function DashboardPage() {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Due Time *
+                </label>
+                <input
+                  type="time"
+                  required
+                  value={formData.dueTime}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dueTime: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
               <div className="flex space-x-3 pt-4">
                 <button
                   type="submit"
@@ -357,7 +374,7 @@ export default function DashboardPage() {
                   onClick={() => {
                     setShowModal(false);
                     setEditingTask(null);
-                    setFormData({ title: "", description: "", dueDate: "" });
+                    setFormData({ title: "", description: "", dueDate: "", dueTime: "09:00" });
                   }}
                   className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 font-medium"
                 >
